@@ -1,11 +1,14 @@
 #include "notificationclient.h"
 
+#ifdef Q_OS_ANDROID
 #include <QtAndroid>
+#endif
 
 NotificationClient::NotificationClient(QObject *parent)
     : QObject{parent}
 {
-    connect(this, &NotificationClient::notificationChanged, this, &NotificationClient::updateAndroidNotification);
+    connect(this, &NotificationClient::notificationChanged,
+            this, &NotificationClient::updateAndroidNotification);
 }
 
 QString NotificationClient::notification() const
@@ -23,6 +26,7 @@ void NotificationClient::setNotification(const QString &newNotification)
 
 void NotificationClient::updateAndroidNotification()
 {
+#ifdef Q_OS_ANDROID
     QAndroidJniObject jniMessage = QAndroidJniObject::fromString(m_notification);
     QAndroidJniObject::callStaticMethod<void>(
         "io/github/ramajd/pushtest/NotificationClient",
@@ -30,4 +34,5 @@ void NotificationClient::updateAndroidNotification()
         "(Landroid/content/Context;Ljava/lang/String;)V",
         QtAndroid::androidContext().object(),
         jniMessage.object<jstring>());
+#endif
 }
