@@ -1,4 +1,4 @@
-QT += quick
+QT += quick qml quickcontrols2
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -22,5 +22,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
+android {
+    QT += androidextras
+}
 
 DISTFILES += $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml
