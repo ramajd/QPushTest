@@ -71,16 +71,16 @@ ApplicationWindow {
                     Button {
                         id: btnLocalNotification
                         Layout.fillWidth: true
-                        enabled: txtMessage.text.length !== 0
                         text: qsTr("Local notification")
                         onClicked: {
-                            console.log('todo')
+                            if (txtMessage.text.length !== 0) {
+                                notificationClient.notification = txtMessage.text
+                            }
                         }
                     }
                     Button {
                         id: btnRemoteNotification
                         Layout.fillWidth: true
-                        enabled: txtMessage.text.length !== 0
                         text: qsTr("Remote notification")
                         onClicked: {
                             console.log('todo')

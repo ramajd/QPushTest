@@ -5,7 +5,11 @@ QT += quick qml quickcontrols2
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+    src/main.cpp \
+    src/notificationclient.cpp
+
+HEADERS += \
+    src/notificationclient.h
 
 RESOURCES += qml.qrc
 
@@ -26,4 +30,8 @@ android {
     QT += androidextras
 }
 
-DISTFILES += $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml
+DISTFILES += $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
+             $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
+             $$ANDROID_PACKAGE_SOURCE_DIR/gradle.properties \
+             $$ANDROID_PACKAGE_SOURCE_DIR/src/io/github/ramajd/pushtest/NotificationClient.java
+
