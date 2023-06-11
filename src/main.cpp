@@ -3,6 +3,7 @@
 #include <QQuickStyle>
 #include <QtQuick>
 
+#include "firebase.h"
 #include "notificationclient.h"
 
 int main(int argc, char *argv[])
@@ -13,7 +14,12 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQuickStyle::setStyle("material");
 
+    auto *firebase = new Firebase(&app);
     auto *notificationClient = new NotificationClient(&app);
+
+    QObject::connect(firebase, &Firebase::newMessage, [notificationClient](const QVariantMap &data) {
+        notificationClient->setNotification(data["body"].toString());
+    });
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -23,6 +29,7 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
 
+    engine.rootContext()->setContextProperty("firebase", firebase);
     engine.rootContext()->setContextProperty("notificationClient", notificationClient);
     engine.load(url);
 

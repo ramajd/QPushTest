@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "84428166449",
+    "project_id": "push-test-472a7",
+    "storage_bucket": "push-test-472a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84428166449:android:671421202618cc23f70c10",
+        "android_client_info": {
+          "package_name": "io.github.ramajd.pushtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84428166449-ebubstjl5j9em0js0f5dp412f8v2dhsh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvVPY1uUvLsZx3HGTiqC-99vgCSQH4d9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84428166449-ebubstjl5j9em0js0f5dp412f8v2dhsh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

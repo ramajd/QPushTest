@@ -51,11 +51,20 @@ ApplicationWindow {
                     TextArea {
                         id: txtToken
                         anchors.fill: parent
-                        wrapMode: Text.WordWrap
+                        wrapMode: Text.Wrap
                         selectByMouse: true
                         selectByKeyboard: true
                         readOnly: true
                         placeholderText: "DEVICE TOKEN GOES HERE"
+                        text: firebase.token
+                    }
+                }
+
+                Connections {
+                    target: firebase
+                    onTokenChanged: console.log('FIREBASE TOKEN CHANGED TO: ' + token)
+                    onNewMessage: function (data) {
+                        console.log('NEW MESSAGE: ' + JSON.stringify(data))
                     }
                 }
 

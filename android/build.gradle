@@ -2,23 +2,23 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.0'
+        classpath 'com.google.gms:google-services:4.3.13'
     }
 }
 
 repositories {
     google()
     jcenter()
+    mavenCentral()
 }
 
 apply plugin: 'com.android.application'
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-}
+apply plugin: 'com.google.gms.google-services'
 
 android {
     /*******************************************************
@@ -75,4 +75,58 @@ android {
         targetSdkVersion = qtTargetSdkVersion
         multiDexEnabled true
     }
+}
+
+// Pre-experimental Gradle plug-in NDK boilerplate below.
+// Right now the Firebase plug-in does not work with the experimental
+// Gradle plug-in so we're using ndk-build for the moment.
+project.ext {
+    // Configure the Firebase C++ SDK location.
+
+    firebase_cpp_sdk_dir = System.getenv('FIREBASE_CPP_SDK')
+    firebaseSdkUsed = 'system env variable FIREBASE_CPP_SDK'
+
+    if (firebase_cpp_sdk_dir != null && (new File(firebase_cpp_sdk_dir)).exists()) {
+        // Check the NDK location using the same configuration options as the
+        // experimental Gradle plug-in.
+        def ndkDir = android.ndkDirectory
+        ndkUsed = 'android.ndkDirectory'
+
+        if (ndkDir == null || !ndkDir.exists()) {
+            ndkDir = new File(System.getProperty('ndk_dir'))
+            ndkUsed = 'system property ndk_dir'
+        }
+        if (ndkDir == null || !ndkDir.exists()) {
+            ndkDir = new File(System.getenv('ANDROID_NDK_HOME'))
+            ndkUsed = 'system env variable ANDROID_NDK_HOME'
+        }
+        if (ndkDir == null || !ndkDir.exists()) {
+            throw new StopActionException(
+                'Android NDK directory should be specified using the ndkDir ' +
+                'property or ANDROID_NDK_HOME environment variable.'
+            )
+        }
+        println 'QtFirebase (Firebase C++ SDK) using Android NDK located in ' + ndkDir + ' (from ' + ndkUsed + ')'
+    } else {
+        println 'Firebase support is disabled.'
+    }
+}
+
+repositories {
+    flatDir {
+        dirs project.ext.firebase_cpp_sdk_dir + "/libs/android"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-messaging:17.6.0'
+    implementation 'com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar'
+    implementation 'com.google.android.gms:play-services-base:16.1.0'
+}
+
+apply from: "$gradle.firebase_cpp_sdk_dir/Android/firebase_dependencies.gradle"
+firebaseCpp.dependencies {
+  messaging
 }
