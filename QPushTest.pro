@@ -58,6 +58,6 @@ DISTFILES += $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
              $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
              $$ANDROID_PACKAGE_SOURCE_DIR/gradle.properties \
              $$ANDROID_PACKAGE_SOURCE_DIR/settings.gradle \
+             $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json \
              $$ANDROID_PACKAGE_SOURCE_DIR/src/io/github/ramajd/pushtest/NotificationClient.java \
-             $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json
-
+             $$ANDROID_PACKAGE_SOURCE_DIR/src/io/github/ramajd/pushtest/MainActivity.java
